@@ -1,0 +1,32 @@
+@import url("https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+@layer tailwind-base, antd;
+
+@layer tailwind-base {
+  @tailwind base;
+}
+@tailwind components;
+@tailwind utilities;
+
+custom-checkbox .ant-checkbox-inner {
+  background-color: #1e40af; /* Tailwind bg-red-700 equivalent */
+  border-color: #1e40af; /* Border color matching background */
+}
+
+.custom-checkbox .ant-checkbox-inner::after {
+  border-color: white; /* Checkmark color */
+}
+
+.custom-checkbox .ant-checkbox-checked .ant-checkbox-inner {
+  background-color: #1e40af !important; /* Tailwind hover:bg-red-800 equivalent */
+  border-color: #1e40af !important; /* Border color on checked */
+}
+
+.custom-checkbox .ant-checkbox-checked .ant-checkbox-inner::after {
+  border-color: white; /* Checkmark color */
+}
+
+.ant-modal {
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+}
