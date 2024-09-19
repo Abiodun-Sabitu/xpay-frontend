@@ -73,7 +73,7 @@ const LoginUI: React.FC = () => {
               to="/register"
               className="text-center  font-medium cursor-pointer"
             >
-              New User ? Sign Up!
+              New User? Sign Up!
             </Link>
           </div>
         </Form.Item>

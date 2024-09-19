@@ -111,6 +111,7 @@ const LoginUI: React.FC = () => {
                     src={NG_Flag}
                     alt="Nigerian Flag"
                     style={{ width: "18px" }}
+                    className="pt-[0.19rem]"
                   />
                   <span className="text-[0.98rem]">+234</span>
                 </div>
