@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Form, Flex, Input } from "antd";
-import PasswordField from "../elements/PasswordField";
+import PasswordField from "./PasswordField";
 import OTPBox from "./otpBox";
+import { Link } from "react-router-dom";
 
 const LoginUI: React.FC = () => {
   //For OTPBox
@@ -27,7 +28,7 @@ const LoginUI: React.FC = () => {
           <Input
             prefix={<UserOutlined className="text-blue-700" />}
             placeholder="Username"
-            autoComplete="off"
+            autoComplete="new-password"
             size="large"
           />
         </Form.Item>
@@ -68,9 +69,12 @@ const LoginUI: React.FC = () => {
             Log in
           </Button>
           <div className="text-center text-blue-800 pt-4">
-            <span className="text-center  font-medium cursor-pointer">
-              Create Wallet!
-            </span>
+            <Link
+              to="/register"
+              className="text-center  font-medium cursor-pointer"
+            >
+              New User ? Sign Up!
+            </Link>
           </div>
         </Form.Item>
       </Form>

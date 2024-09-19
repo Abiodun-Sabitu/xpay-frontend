@@ -15,7 +15,7 @@ const PasswordField: React.FC<PasswordFieldProps> = ({
 }) => {
   return (
     <Input.Password
-      autoComplete="off"
+      autoComplete="new-password"
       size="large"
       placeholder={placeholder}
       prefix={prefix}
