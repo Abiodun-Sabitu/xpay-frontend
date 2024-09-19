@@ -97,7 +97,7 @@ const otpBox: React.FC<Props> = ({ visible, onClose }) => {
                       borderColor: "#1e40af",
                       color: "#fff",
                     } // Active style
-                  : { backgroundColor: "silver", borderColor: "silver" } // Inactive style
+                  : { backgroundColor: "#f5f2f5", borderColor: "#f5f2f5" } // Inactive style
               }
               className="mt-5"
               disabled={otp.length !== 6} // Disable button unless OTP length is 6

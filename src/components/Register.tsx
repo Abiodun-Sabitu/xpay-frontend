@@ -17,6 +17,7 @@ const LoginUI: React.FC = () => {
   const [isFormComplete, setIsFormComplete] = useState(false); // State to track form completeness
   const [showSegment, setShowSegment] = useState(true);
   const [form] = Form.useForm(); // antd use form instance
+  const [confirmLoading, setConfirmLoading] = useState(false);
 
   // Ensure all fields are populated before button becomes available
   const handleValuesChange = (_: any, allValues: Record<string, any>): void => {
@@ -46,6 +47,10 @@ const LoginUI: React.FC = () => {
   const onFinish = (OnboardingFormValues: Record<string, any>) => {
     console.log("Received values of form: ", OnboardingFormValues);
     console.log(OnboardingFormValues.firstName);
+    setConfirmLoading(true);
+    setTimeout(() => {
+      setConfirmLoading(false);
+    }, 2000);
   };
 
   // Toggle form segments
@@ -182,6 +187,7 @@ const LoginUI: React.FC = () => {
 
         <Form.Item>
           <Button
+            loading={confirmLoading}
             block
             disabled={!isFormComplete}
             type="primary"
@@ -194,10 +200,10 @@ const LoginUI: React.FC = () => {
                     borderColor: "#1e40af",
                     color: "#fff",
                   } // Active style
-                : { backgroundColor: "silver", borderColor: "silver" } // Inactive style
+                : { backgroundColor: "#f5f2f5", borderColor: "#f5f2f5" } // Inactive style
             }
           >
-            Sign up
+            {confirmLoading ? "Signing up..." : "Sign up"}
           </Button>
 
           <div className="text-center text-blue-800 pt-4">
