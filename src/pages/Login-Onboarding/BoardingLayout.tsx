@@ -1,7 +1,7 @@
 // import LoginUI from "../../components/LoginForm";
 import { Outlet } from "react-router-dom";
 
-function Auth() {
+function BoardingLayout() {
   return (
     <>
       <section className="flex overflow-hidden">
@@ -23,4 +23,4 @@ function Auth() {
   );
 }
 
-export default Auth;
+export default BoardingLayout;

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, Modal } from "antd";
-import useCountdown from "../utils/useCountdown";
+import useCountdown from "../../utils/useCountdown";
 import OtpInput from "react-otp-input";
 
 interface Props {

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Form, Flex, Input } from "antd";
-import PasswordField from "./PasswordField";
+import PasswordField from "../../components/PasswordField";
 import OTPBox from "./otpBox";
 import { Link } from "react-router-dom";
 

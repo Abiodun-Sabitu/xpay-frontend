@@ -7,8 +7,8 @@ import {
   BackwardFilled,
 } from "@ant-design/icons";
 import { Button, Form, Input } from "antd";
-import PasswordField from "./PasswordField";
-import NG_Flag from "./../assets/NG_Flag.svg";
+import PasswordField from "../../components/PasswordField";
+import NG_Flag from "../../assets/NG_Flag.svg";
 import { Link } from "react-router-dom";
 import { RuleObject } from "antd/lib/form";
 import { StoreValue } from "antd/lib/form/interface";
@@ -58,6 +58,36 @@ const LoginUI: React.FC = () => {
     setShowSegment(!showSegment);
   };
 
+  const passwordRules = [
+    { required: true, message: "Please enter a password!" },
+    () => ({
+      validator(_: any, value: string) {
+        if (value.length < 8) {
+          return Promise.reject(new Error("must be at least 8 characters!"));
+        }
+        if (!/\d/.test(value)) {
+          return Promise.reject(new Error("must include at least one number!"));
+        }
+        if (!/[A-Z]/.test(value)) {
+          return Promise.reject(
+            new Error("must include at least one uppercase letter!")
+          );
+        }
+        if (!/[a-z]/.test(value)) {
+          return Promise.reject(
+            new Error("must include at least one lowercase letter!")
+          );
+        }
+        if (!/[\W_]/.test(value)) {
+          return Promise.reject(
+            new Error("must include at least one special character!")
+          );
+        }
+        return Promise.resolve();
+      },
+    }),
+  ];
+
   return (
     <>
       <Form
@@ -101,6 +131,10 @@ const LoginUI: React.FC = () => {
             name="phone"
             rules={[
               { required: true, message: "Please input your phone number" },
+              {
+                pattern: /^[0-9]{10}$/, // Regex to ensure 10 digits and no alphabets
+                message: "Phone number must be 10 digits only!",
+              },
             ]}
           >
             <Input
@@ -120,7 +154,6 @@ const LoginUI: React.FC = () => {
               size="large"
               type="tel"
               maxLength={10}
-              pattern="[0-9]*"
             />
           </Form.Item>
         </div>
@@ -130,7 +163,14 @@ const LoginUI: React.FC = () => {
           <Form.Item
             name="email"
             rules={[
-              { required: true, message: "Please input your email address!" },
+              {
+                required: true,
+                message: "Please input your email address!",
+              },
+              {
+                type: "email",
+                message: "Ensure it is a valid email!",
+              },
             ]}
           >
             <Input
@@ -138,14 +178,10 @@ const LoginUI: React.FC = () => {
               placeholder="Email Address"
               autoComplete="off"
               size="large"
-              type="email"
             />
           </Form.Item>
 
-          <Form.Item
-            name="password"
-            rules={[{ required: true, message: "Please input your password!" }]}
-          >
+          <Form.Item name="password" rules={passwordRules}>
             <PasswordField
               prefix={<LockOutlined className="text-blue-700" />}
               placeholder="Password"
@@ -162,7 +198,7 @@ const LoginUI: React.FC = () => {
             ]}
           >
             <PasswordField
-              prefix={<LockOutlined className="text-blue-700" />}
+              prefix={<LockOutlined className="text-blue-700 " />}
               placeholder="Confirm Password"
             />
           </Form.Item>
