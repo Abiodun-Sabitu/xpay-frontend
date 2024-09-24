@@ -61,6 +61,7 @@ const otpBox: React.FC<Props> = ({ visible, onClose }) => {
         borderRadius: 4,
         border: "1px solid #d9d9d9",
         outline: "none",
+        color: "GrayText",
       }}
       onFocus={(e) => {
         e.target.style.border = "1px solid #1e40af";

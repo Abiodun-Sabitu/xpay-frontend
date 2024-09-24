@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { LockOutlined, UserOutlined } from "@ant-design/icons";
+import { LockOutlined, UserOutlined, ForwardFilled } from "@ant-design/icons";
 import { Button, Checkbox, Form, Flex, Input } from "antd";
 import PasswordField from "../../components/PasswordField";
 import OTPBox from "./otpBox";
 import { Link } from "react-router-dom";
+import { passwordRules } from "./validators";
 
 const LoginUI: React.FC = () => {
   //For OTPBox
@@ -32,10 +33,7 @@ const LoginUI: React.FC = () => {
             size="large"
           />
         </Form.Item>
-        <Form.Item
-          name="password"
-          rules={[{ required: true, message: "Please input your Password!" }]}
-        >
+        <Form.Item name="password" rules={passwordRules}>
           <PasswordField
             prefix={<LockOutlined className="text-blue-700" />}
             placeholder="Password"
@@ -48,9 +46,12 @@ const LoginUI: React.FC = () => {
                 Remember me
               </Checkbox>
             </Form.Item>
-            <span className="text-center text-blue-800 cursor-pointer">
+            <Link
+              to="/forgot-password"
+              className="text-center text-blue-800 cursor-pointer"
+            >
               Forgot Password
-            </span>
+            </Link>
           </Flex>
         </Form.Item>
 
@@ -69,12 +70,18 @@ const LoginUI: React.FC = () => {
             Log in
           </Button>
           <div className="text-center text-blue-800 pt-4">
-            <Link
-              to="/register"
-              className="text-center  font-medium cursor-pointer"
-            >
-              New User? Sign Up!
-            </Link>
+            <div className="flex justify-items-center justify-center text-red-700 font-semibold gap-2">
+              <span className="flex justify-center">
+                New User
+                <ForwardFilled className="pt-1" />
+              </span>
+              <Link
+                to="/sign-up"
+                className="text-center  font-medium cursor-pointer"
+              >
+                Sign up!
+              </Link>
+            </div>
           </div>
         </Form.Item>
       </Form>

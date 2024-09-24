@@ -1,12 +1,14 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
-import Layout from "./pages/Login-Onboarding/BoardingLayout";
-import LoginUI from "./pages/Login-Onboarding/LoginForm";
-import RegisterUI from "./pages/Login-Onboarding/Register";
+import BoardingLayout from "./pages/Login-Onboarding/BoardingLayout";
+import LoginUI from "./pages/Login-Onboarding/Login";
+import SignUpUI from "./pages/Login-Onboarding/SignUp";
+import ForgotPassword from "./pages/Login-Onboarding/ForgotPassword";
+import ResetPassword from "./pages/Login-Onboarding/ResetPassword";
 
 const router = createBrowserRouter([
   {
     path: "/", // Parent route for Auth layout
-    element: <Layout />,
+    element: <BoardingLayout />,
     children: [
       {
         index: true, // This makes it the default child route for "/"
@@ -17,8 +19,16 @@ const router = createBrowserRouter([
         element: <LoginUI />,
       },
       {
-        path: "register",
-        element: <RegisterUI />,
+        path: "sign-up",
+        element: <SignUpUI />,
+      },
+      {
+        path: "forgot-password",
+        element: <ForgotPassword />,
+      },
+      {
+        path: "/reset-password",
+        element: <ResetPassword />,
       },
     ],
   },

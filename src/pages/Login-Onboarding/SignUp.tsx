@@ -5,19 +5,29 @@ import {
   MailOutlined,
   ForwardFilled,
   BackwardFilled,
+  CheckCircleOutlined,
+  ExclamationCircleOutlined,
 } from "@ant-design/icons";
 import { Button, Form, Input } from "antd";
 import PasswordField from "../../components/PasswordField";
-import NG_Flag from "../../assets/NG_Flag.svg";
+import { checkPasswordMatch, passwordRules } from "./validators";
 import { Link } from "react-router-dom";
-import { RuleObject } from "antd/lib/form";
-import { StoreValue } from "antd/lib/form/interface";
 
-const LoginUI: React.FC = () => {
+import Feedback from "../../components/Feedback";
+
+const SignUpUI: React.FC = () => {
   const [isFormComplete, setIsFormComplete] = useState(false); // State to track form completeness
   const [showSegment, setShowSegment] = useState(true);
   const [form] = Form.useForm(); // antd use form instance
   const [confirmLoading, setConfirmLoading] = useState(false);
+
+  //For Feedback Modal
+  const [isFeedbackModalOpen, setFeedbackModal] = useState(false);
+  // console.log(isFeedbackModalOpen, "before");
+  const closeFeedbackModal = () => {
+    setFeedbackModal(false);
+    // console.log(isFeedbackModalOpen, "after");
+  };
 
   // Ensure all fields are populated before button becomes available
   const handleValuesChange = (_: any, allValues: Record<string, any>): void => {
@@ -27,29 +37,14 @@ const LoginUI: React.FC = () => {
     setIsFormComplete(areAllFieldsFilled);
   };
 
-  // Custom function to check if passwords match
-  const checkPasswordMatch = (
-    _: RuleObject,
-    value: StoreValue
-  ): Promise<void> => {
-    const password = form.getFieldValue("password"); // Get password value
-
-    // Check if confirm password is empty or if the passwords match
-    if (!value || password === value) {
-      return Promise.resolve(); // Validation passes
-    }
-
-    // If passwords don't match, reject with error
-    return Promise.reject(new Error("Passwords do not match!"));
-  };
-
   // Submit onboarding form
   const onFinish = (OnboardingFormValues: Record<string, any>) => {
     console.log("Received values of form: ", OnboardingFormValues);
-    console.log(OnboardingFormValues.firstName);
+    console.log(OnboardingFormValues);
     setConfirmLoading(true);
     setTimeout(() => {
       setConfirmLoading(false);
+      setFeedbackModal(true);
     }, 2000);
   };
 
@@ -58,35 +53,32 @@ const LoginUI: React.FC = () => {
     setShowSegment(!showSegment);
   };
 
-  const passwordRules = [
-    { required: true, message: "Please enter a password!" },
-    () => ({
-      validator(_: any, value: string) {
-        if (value.length < 8) {
-          return Promise.reject(new Error("must be at least 8 characters!"));
-        }
-        if (!/\d/.test(value)) {
-          return Promise.reject(new Error("must include at least one number!"));
-        }
-        if (!/[A-Z]/.test(value)) {
-          return Promise.reject(
-            new Error("must include at least one uppercase letter!")
-          );
-        }
-        if (!/[a-z]/.test(value)) {
-          return Promise.reject(
-            new Error("must include at least one lowercase letter!")
-          );
-        }
-        if (!/[\W_]/.test(value)) {
-          return Promise.reject(
-            new Error("must include at least one special character!")
-          );
-        }
-        return Promise.resolve();
-      },
-    }),
-  ];
+  const successMessage = (
+    <div className="text-center p-6">
+      <CheckCircleOutlined className="text-green-500 text-5xl mb-4" />
+      <h2 className="text-2xl font-semibold mb-2 ">You're all set!</h2>
+      <p className="text-[1rem] mb-2">
+        We've sent a confirmation email to your inbox. Click the link in the
+        email to complete your sign up
+      </p>
+      <p className="text-sm text-gray-500">
+        Didn't get the email? Check your spam folder or try again.
+      </p>
+    </div>
+  );
+
+  const onboardingIssueMessage = (
+    <div className="text-center p-6">
+      <ExclamationCircleOutlined className="text-red-500 text-6xl mb-4" />
+      <h2 className="text-2xl font-semibold mb-4">
+        Oops, something went wrong!
+      </h2>
+      <p className="text-lg mb-2">We couldn't complete your registration.</p>
+      <p className="text-lg mb-2">
+        Please try again or contact our support team for help.
+      </p>
+    </div>
+  );
 
   return (
     <>
@@ -133,7 +125,7 @@ const LoginUI: React.FC = () => {
               { required: true, message: "Please input your phone number" },
               {
                 pattern: /^[0-9]{10}$/, // Regex to ensure 10 digits and no alphabets
-                message: "Phone number must be 10 digits only!",
+                message: "Phone number must be digits only!",
               },
             ]}
           >
@@ -142,9 +134,9 @@ const LoginUI: React.FC = () => {
               addonBefore={
                 <div className="flex gap-2" style={{ width: "60px" }}>
                   <img
-                    src={NG_Flag}
+                    src="/NG_Flag.svg"
                     alt="Nigerian Flag"
-                    style={{ width: "18px" }}
+                    style={{ width: "18px", height: "14px" }}
                     className="pt-[0.19rem]"
                   />
                   <span className="text-[0.98rem]">+234</span>
@@ -194,7 +186,7 @@ const LoginUI: React.FC = () => {
             hasFeedback
             rules={[
               { required: true, message: "Please confirm your password!" },
-              { validator: checkPasswordMatch }, // Custom validation for password match
+              checkPasswordMatch(form), // Custom validation for password match
             ]}
           >
             <PasswordField
@@ -244,17 +236,30 @@ const LoginUI: React.FC = () => {
           </Button>
 
           <div className="text-center text-blue-800 pt-4">
-            <Link
-              to="/login"
-              className="text-center font-medium cursor-pointer"
-            >
-              Already have an account? Sign in
-            </Link>
+            <div className="flex justify-items-center justify-center text-red-700 font-semibold gap-2">
+              <span className="flex justify-center">
+                Existing User
+                <ForwardFilled className="pt-1" />
+              </span>
+              <Link
+                to="/login"
+                className="text-center  font-medium cursor-pointer"
+              >
+                Login!
+              </Link>
+            </div>
           </div>
         </Form.Item>
       </Form>
+
+      <Feedback
+        title=""
+        content={successMessage}
+        visible={isFeedbackModalOpen}
+        onClose={closeFeedbackModal}
+      />
     </>
   );
 };
 
-export default LoginUI;
+export default SignUpUI;
