@@ -4,6 +4,7 @@ import LoginUI from "./pages/Login-Onboarding/Login";
 import SignUpUI from "./pages/Login-Onboarding/SignUp";
 import ForgotPassword from "./pages/Login-Onboarding/ForgotPassword";
 import ResetPassword from "./pages/Login-Onboarding/ResetPassword";
+import Dashboard from "./pages/Dashboard/DashboardPage";
 
 const router = createBrowserRouter([
   {
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
         element: <ResetPassword />,
       },
     ],
+  },
+  {
+    path: "/dashboard",
+    element: <Dashboard />,
   },
 ]);
 
