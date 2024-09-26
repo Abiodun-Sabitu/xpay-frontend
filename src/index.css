@@ -30,3 +30,8 @@ custom-checkbox .ant-checkbox-inner {
   top: 50% !important;
   transform: translateY(-50%) !important;
 }
+
+html,
+body {
+  height: 100%;
+}
